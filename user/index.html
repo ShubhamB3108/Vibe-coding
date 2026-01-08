@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mess Meal Booking</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Toggle -->
+    <div class="toggle">
+        <button id="availableBtn" class="active">Available</button>
+        <button id="bookedBtn">Booked</button>
+    </div>
+
+    <h1 id="title">Available Meals</h1>
+
+    <div class="cards" id="cards"></div>
+</div>
+
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-box">
+
+        <h2 class="meal-title">Breakfast</h2>
+
+        <!-- ITEM -->
+        <div class="row">
+            <div class="left">
+               <label class="custom-checkbox">
+    <input type="checkbox">
+    <span class="checkmark"></span>
+    <span class="label-text strike">Vada</span>
+</label>
+
+            </div>
+            <div class="qty">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
+            </div>
+        </div>
+
+        <!-- ITEM -->
+        <div class="row">
+            <div class="left">
+                <label class="custom-checkbox">
+    <input type="checkbox">
+    <span class="checkmark"></span>
+    <span class="label-text strike">idli</span>
+</label>
+
+            </div>
+            <div class="qty">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
+            </div>
+        </div>
+
+        <!-- ITEM (CHECKED) -->
+        <div class="row active">
+            <div class="left">
+                <label class="custom-checkbox">
+    <input type="checkbox">
+    <span class="checkmark"></span>
+    <span class="label-text strike">dal</span>
+</label>
+
+            </div>
+            <div class="qty">
+                <button>-</button>
+                <span>1</span>
+                <button>+</button>
+            </div>
+        </div>
+
+        <button class="book" onclick="closeModal()">Book Meal</button>
+    </div>
+</div>
+
+
+<script src="./index.js"></script>
+</body>
+</html>

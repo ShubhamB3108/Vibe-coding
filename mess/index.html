@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Meal</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#2f2f3a;
+    color:white;
+}
+
+.container{
+    max-width:600px;
+    margin:50px auto;
+}
+
+/* Toggle */
+.toggle{
+    display:flex;
+    background:#4a4a57;
+    border-radius:30px;
+    padding:6px;
+    width:260px;
+    margin:0 auto 30px;
+}
+
+.toggle button{
+    flex:1;
+    border:none;
+    background:transparent;
+    color:#ccc;
+    padding:12px;
+    border-radius:25px;
+    cursor:pointer;
+}
+
+.toggle .active{
+    background:#8f2cf2;
+    color:white;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+/* Inputs */
+.field label{
+    color:#ccc;
+    font-size:14px;
+}
+
+.field input{
+    width:100%;
+    margin-top:8px;
+    padding:14px;
+    border:none;
+    border-radius:25px;
+    background:#4a4a57;
+    color:white;
+}
+
+/* Item add */
+.item-add{
+    background:#4a4a57;
+    padding:16px;
+    border-radius:20px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin:25px 0;
+}
+
+.item-add input{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:20px;
+    background:#2f2f3a;
+    color:white;
+}
+
+/* Dropdown */
+.dropdown{
+    position:relative;
+}
+
+.dropdown-btn{
+    padding:12px 16px;
+    border-radius:20px;
+    background:#2f2f3a;
+    cursor:pointer;
+}
+
+.dropdown-menu{
+    position:absolute;
+    top:45px;
+    left:0;
+    background:#3a3a45;
+    border-radius:12px;
+    overflow:hidden;
+    display:none;
+    width:140px;
+}
+
+.dropdown-menu div{
+    padding:10px;
+    cursor:pointer;
+}
+
+.dropdown-menu div:hover{
+    background:#8f2cf2;
+}
+
+.add-btn{
+    padding:12px 22px;
+    border:none;
+    border-radius:25px;
+    background:#8f2cf2;
+    color:white;
+    cursor:pointer;
+}
+
+/* Item list */
+.item-list{
+    background:#4a4a57;
+    padding:20px;
+    border-radius:20px;
+}
+
+.item{
+    background:#3a3a45;
+    padding:14px 18px;
+    border-radius:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.checkbox{
+    width:20px;
+    height:20px;
+    border-radius:5px;
+    border:2px solid #bbb;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    color:white;
+}
+
+.checkbox.active{
+    background:#8f2cf2;
+    border-color:#8f2cf2;
+}
+
+.checkbox.active::after{
+    content:"✓";
+    font-weight:bold;
+}
+
+
+.strike{
+    text-decoration:line-through;
+    opacity:0.7;
+}
+
+.type{
+    font-size:12px;
+    color:#aaa;
+}
+
+.icons{
+    display:flex;
+    gap:10px;
+}
+
+.icon{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#8f2cf2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+/* ===== VIEW MEALS ===== */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:30px;
+}
+
+.card{
+    background:#4a4a57;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.card h2{
+    margin-bottom:20px;
+}
+
+.info{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+.pill{
+    background:#2f2f3a;
+    padding:12px 18px;
+    border-radius:20px;
+    font-size:14px;
+}
+
+.view-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:30px;
+    background:#8f2cf2;
+    color:white;
+    cursor:pointer;
+}
+/* ===== BACK BUTTON ===== */
+.back-btn{
+    background:transparent;
+    border:none;
+    color:#8f2cf2;
+    font-size:16px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Toggle -->
+    <div class="toggle">
+        <button id="createBtn" class="active">Create</button>
+        <button id="viewBtn">View</button>
+    </div>
+
+    <h1 id="title">Create Meal</h1>
+
+    <!-- Meal name -->
+    <div class="field" id="mealField">
+        <label>Meal Name</label>
+        <input type="text">
+    </div>
+
+    <!-- Add item -->
+    <div class="item-add" id="addSection">
+        <input type="text" id="itemName" placeholder="Item Name">
+
+        <div class="dropdown">
+            <div class="dropdown-btn" id="dropdownBtn">Countable ▼</div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div onclick="setType('Countable')">Countable</div>
+                <div onclick="setType('Uncountable')">Uncountable</div>
+            </div>
+        </div>
+
+        <button class="add-btn" onclick="addItem()">Add</button>
+    </div>
+
+    <!-- Item list -->
+    <div class="item-list" id="itemList"></div>
+
+</div>
+<!-- MEAL DEMAND SECTION -->
+<div class="container" id="mealDemandSection" style="display:none; max-width:1100px;">
+
+    <button class="back-btn" onclick="backToViewMeals()">← Back</button>
+
+    <h1>Meal Demand</h1>
+
+    <div class="cards">
+        <div class="card">
+            <h2>Vada</h2>
+            <div class="pill" style="font-size:32px;">92</div>
+        </div>
+
+        <div class="card">
+            <h2>Pav</h2>
+            <div class="pill" style="font-size:32px;">92</div>
+        </div>
+
+        <div class="card">
+            <h2>Dal</h2>
+            <div class="pill" style="font-size:32px;">92</div>
+        </div>
+
+        <div class="card">
+            <h2>Rice</h2>
+            <div class="pill" style="font-size:32px;">92</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- VIEW MEALS SECTION -->
+<div class="container" id="viewMealsSection" style="display:none; max-width:1100px;">
+    <button class="back-btn" onclick="goBack()">← Back</button>
+
+    <h1>View Meals</h1>
+
+    <div class="cards">
+        <div class="card">
+            <h2>Breakfast</h2>
+            <div class="info">
+                <div class="pill">Uploaded date<br><b>15/3/2026</b></div>
+                <div class="pill">Meal Time<br><b>3:00 PM</b></div>
+            </div>
+            <button class="view-btn" onclick="openMealDemand()">View Meal Details</button>
+
+        </div>
+
+        <div class="card">
+            <h2>Breakfast</h2>
+            <div class="info">
+                <div class="pill">Uploaded date<br><b>15/3/2026</b></div>
+                <div class="pill">Meal Time<br><b>3:00 PM</b></div>
+            </div>
+            <button class="view-btn" onclick="openMealDemand()">View Meal Details</button>
+
+        </div>
+
+        <div class="card">
+            <h2>Breakfast</h2>
+            <div class="info">
+                <div class="pill">Uploaded date<br><b>15/3/2026</b></div>
+                <div class="pill">Meal Time<br><b>3:00 PM</b></div>
+            </div>
+            <button class="view-btn" onclick="openMealDemand()">View Meal Details</button>
+
+        </div>
+
+        <div class="card">
+            <h2>Breakfast</h2>
+            <div class="info">
+                <div class="pill">Uploaded date<br><b>15/3/2026</b></div>
+                <div class="pill">Meal Time<br><b>3:00 PM</b></div>
+            </div>
+            <button class="view-btn" onclick="openMealDemand()">View Meal Details</button>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<script>
+/* ================== ELEMENTS ================== */
+const itemList = document.getElementById("itemList");
+const itemNameInput = document.getElementById("itemName");
+const dropdownBtn = document.getElementById("dropdownBtn");
+const dropdownMenu = document.getElementById("dropdownMenu");
+const createBtn = document.getElementById("createBtn");
+const viewBtn = document.getElementById("viewBtn");
+const title = document.getElementById("title");
+const mealField = document.getElementById("mealField");
+const addSection = document.getElementById("addSection");
+
+/* Sections */
+const createSection = document.querySelector(".container");
+const viewMealsSection = document.getElementById("viewMealsSection");
+
+/* ================== STATE ================== */
+let currentType = "Countable";
+let items = [];
+
+/* ================== DROPDOWN ================== */
+dropdownBtn.onclick = () => {
+    dropdownMenu.style.display =
+        dropdownMenu.style.display === "block" ? "none" : "block";
+};
+
+function setType(type){
+    currentType = type;
+    dropdownBtn.innerText = type + " ▼";
+    dropdownMenu.style.display = "none";
+}
+
+/* ================== ADD ITEM ================== */
+function addItem(){
+    const name = itemNameInput.value.trim();
+    if(!name) return;
+
+    items.push({
+        name: name,
+        type: currentType,
+        checked: false
+    });
+
+    itemNameInput.value = "";
+    render(true);
+}
+
+/* ================== RENDER ITEMS ================== */
+function render(editable){
+    itemList.innerHTML = "";
+
+    items.forEach((item, index) => {
+        itemList.innerHTML += `
+            <div class="item">
+                <div class="left">
+                    <div class="checkbox ${item.checked ? 'active' : ''}"
+                         onclick="toggleCheck(${index})"></div>
+
+                    <span class="${item.checked ? '' : 'strike'}">
+                        ${item.name}
+                    </span>
+
+                    <span class="type">(${item.type})</span>
+                </div>
+
+                ${editable ? `
+                <div class="icons">
+                    <div class="icon" onclick="removeItem(${index})">🗑</div>
+                </div>` : ``}
+            </div>
+        `;
+    });
+}
+
+/* ================== CHECKBOX ================== */
+function toggleCheck(index){
+    items[index].checked = !items[index].checked;
+    render(true);
+}
+
+/* ================== REMOVE ITEM ================== */
+function removeItem(index){
+    items.splice(index, 1);
+    render(true);
+}
+
+/* ================== TOGGLE PAGES ================== */
+
+/* CREATE PAGE */
+createBtn.onclick = () => {
+    createBtn.classList.add("active");
+    viewBtn.classList.remove("active");
+
+    title.innerText = "Create Meal";
+    mealField.style.display = "block";
+    addSection.style.display = "flex";
+    itemList.style.display = "block";
+
+    createSection.style.display = "block";
+    viewMealsSection.style.display = "none";
+
+    render(true);
+};
+
+/* VIEW PAGE */
+viewBtn.onclick = () => {
+    viewBtn.classList.add("active");
+    createBtn.classList.remove("active");
+
+    createSection.style.display = "none";
+    viewMealsSection.style.display = "block";
+};
+
+/* ================== BACK FUNCTION ================== */
+function goBack(){
+    // same as clicking Create
+    createBtn.classList.add("active");
+    viewBtn.classList.remove("active");
+
+    title.innerText = "Create Meal";
+    mealField.style.display = "block";
+    addSection.style.display = "flex";
+    itemList.style.display = "block";
+
+    createSection.style.display = "block";
+    viewMealsSection.style.display = "none";
+
+    render(true);
+}
+/* ================== MEAL DEMAND NAVIGATION ================== */
+
+const mealDemandSection = document.getElementById("mealDemandSection");
+
+/* Open Meal Demand */
+function openMealDemand(){
+    viewMealsSection.style.display = "none";
+    mealDemandSection.style.display = "block";
+}
+
+/* Back to View Meals */
+function backToViewMeals(){
+    mealDemandSection.style.display = "none";
+    viewMealsSection.style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
